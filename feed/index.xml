@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>モーニング・ビルド</title>
+    <link>https://babaroa024.github.io/morning-build-podcast/</link>
+    <language>ja</language>
+    <copyright>モーニング・ビルド編集部</copyright>
+    <description><![CDATA[自治体で建築営繕を担当しながら、フルマラソンのサブ3時間45分を目指して走る。そんな人のための、毎朝4時の40分番組。その日の練習メニューの読み解き、建築基準法や公共建築の実務、生成AIの業務活用、そしてトレーニング科学。走ることと建てることを、ひとつの時間割で。]]></description>
+    <itunes:summary><![CDATA[自治体で建築営繕を担当しながら、フルマラソンのサブ3時間45分を目指して走る。そんな人のための、毎朝4時の40分番組。その日の練習メニューの読み解き、建築基準法や公共建築の実務、生成AIの業務活用、そしてトレーニング科学。走ることと建てることを、ひとつの時間割で。]]></itunes:summary>
+    <itunes:author>モーニング・ビルド編集部</itunes:author>
+    <itunes:owner>
+      <itunes:name>モーニング・ビルド編集部</itunes:name>
+      <itunes:email>mies.fan.der.rohe@gmail.com</itunes:email>
+    </itunes:owner>
+    <itunes:image href="https://babaroa024.github.io/morning-build-podcast/cover.png"/>
+    <itunes:category text="Health &amp; Fitness">
+      <itunes:category text="Running"/>
+    </itunes:category>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:type>episodic</itunes:type>
+    <lastBuildDate>Tue, 15 Sep 2026 19:25:38 +0900</lastBuildDate>
+    <item>
+      <title>モーニング・ビルド ／ 2026年9月15日（火）</title>
+      <description><![CDATA[本日の内容：オープニング（約1分30秒） ／ 今日／今週の練習メニュー解説（約9分） ／ 深掘り①　建築法規 ―― 改正建築基準法、施行1年半後の営繕実務（約9分） ／ 深掘り②　生成AI ―― 発注者が「使う側」に回る年（約9分） ／ 直近の実績振り返り・データ分析（約7分） ／ エンディング（約1分30秒）]]></description>
+      <itunes:summary><![CDATA[本日の内容：オープニング（約1分30秒） ／ 今日／今週の練習メニュー解説（約9分） ／ 深掘り①　建築法規 ―― 改正建築基準法、施行1年半後の営繕実務（約9分） ／ 深掘り②　生成AI ―― 発注者が「使う側」に回る年（約9分） ／ 直近の実績振り返り・データ分析（約7分） ／ エンディング（約1分30秒）]]></itunes:summary>
+      <pubDate>Tue, 15 Sep 2026 04:00:00 +0900</pubDate>
+      <guid isPermaLink="false">morning-build-2026-09-15</guid>
+      <link>https://babaroa024.github.io/morning-build-podcast/</link>
+      <enclosure url="https://github.com/babaroa024/morning-build-podcast/releases/download/ep-2026-09-15/2026-09-15.mp3" length="22290861" type="audio/mpeg"/>
+      <itunes:duration>00:46:26</itunes:duration>
+      <itunes:episodeType>full</itunes:episodeType>
+      <itunes:explicit>false</itunes:explicit>
+    </item>
+  </channel>
+</rss>
