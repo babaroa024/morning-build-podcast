@@ -1,7 +1,5 @@
 name: エピソードを公開する
 
-# episodes/ に台本が push されると自動で走る。
-# 手動実行も可能（Actions タブ → Run workflow）。
 on:
   push:
     paths:
@@ -29,9 +27,12 @@ jobs:
 
       - name: 依存をインストール
         run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
           python -m pip install --upgrade pip
           pip install edge-tts
           ffmpeg -version | head -1
+          ffprobe -version | head -1
 
       - name: 未処理の台本を音声化して Release に公開
         env:
