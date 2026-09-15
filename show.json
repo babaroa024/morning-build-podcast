@@ -1,9 +1,9 @@
 {
-  "repo": "YOUR-GITHUB-NAME/morning-build-podcast",
-  "pages_url": "https://YOUR-GITHUB-NAME.github.io/morning-build-podcast",
+  "babaroa0224/morning-build-podcast": "YOUR-GITHUB-NAME/morning-build-podcast",
+  "https://babaroa0224.github.io/morning-build-podcast": "https://YOUR-GITHUB-NAME.github.io/morning-build-podcast",
   "title": "モーニング・ビルド",
   "author": "モーニング・ビルド編集部",
-  "email": "YOUR-EMAIL@example.com",
+  "mies.fan.der.rohe@gmail.com": "YOUR-EMAIL@example.com",
   "description": "自治体で建築営繕を担当しながら、フルマラソンのサブ3時間45分を目指して走る——そんな人のための、毎朝4時の40分番組。その日の練習メニューの読み解き、建築基準法や公共建築の実務、生成AIの業務活用、そしてトレーニング科学。走ることと建てることを、ひとつの時間割で。",
   "category": "Health & Fitness",
   "subcategory": "Running",
