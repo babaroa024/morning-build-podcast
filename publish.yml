@@ -1,0 +1,111 @@
+name: エピソードを公開する
+
+# episodes/ に台本が push されると自動で走る。
+# 手動実行も可能（Actions タブ → Run workflow）。
+on:
+  push:
+    paths:
+      - "episodes/**.md"
+  workflow_dispatch:
+
+permissions:
+  contents: write     # Releases への音声アップロードに必要
+  pages: write        # GitHub Pages への RSS 公開に必要
+  id-token: write
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 依存をインストール
+        run: |
+          python -m pip install --upgrade pip
+          pip install edge-tts
+          ffmpeg -version | head -1
+
+      - name: 未処理の台本を音声化して Release に公開
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          published=0
+
+          for script in episodes/*.md; do
+            date="$(basename "$script" .md)"
+            meta="episodes/${date}.json"
+
+            # すでに音声が出来ているエピソードは飛ばす
+            if [ -f "$meta" ] && python -c "import json,sys; sys.exit(0 if json.load(open('$meta')).get('audio_bytes') else 1)"; then
+              echo "スキップ: $date（公開済み）"
+              continue
+            fi
+
+            echo "::group::$date を音声化"
+            mkdir -p build
+            python scripts/synthesize.py "$script" "build/${date}.mp3"
+            echo "::endgroup::"
+
+            bytes=$(stat -c%s "build/${date}.mp3")
+            secs=$(printf "%.0f" "$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "build/${date}.mp3")")
+
+            title=$(head -1 "$script" | sed 's/^#* *//')
+            gh release create "ep-${date}" "build/${date}.mp3" \
+              --title "$title" --notes "自動生成エピソード ${date}" || \
+            gh release upload "ep-${date}" "build/${date}.mp3" --clobber
+
+            python - "$meta" "$date" "$bytes" "$secs" "$script" <<'PY'
+import json, os, re, sys
+meta, date, byts, secs, script = sys.argv[1:6]
+data = json.load(open(meta, encoding="utf-8")) if os.path.exists(meta) else {}
+text = open(script, encoding="utf-8").read()
+if not data.get("title"):
+    data["title"] = text.splitlines()[0].lstrip("# ").strip()
+if not data.get("description"):
+    # 見出し「コーナー」名を拾って概要にする
+    heads = [h.strip() for h in re.findall(r"^##\s*【\d+】(.+)$", text, re.M)]
+    data["description"] = "本日の内容：" + " ／ ".join(heads) if heads else data["title"]
+data.update({"date": date, "audio_bytes": int(byts), "duration_sec": int(secs)})
+json.dump(data, open(meta, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+PY
+            published=$((published + 1))
+          done
+
+          echo "published=$published" >> "$GITHUB_ENV"
+
+      - name: RSS を生成
+        run: |
+          cp assets/cover.png feed/cover.png
+          python scripts/build_feed.py
+
+      - name: エピソード情報をコミット
+        run: |
+          git config user.name  "morning-build-bot"
+          git config user.email "actions@github.com"
+          git add episodes/*.json feed/
+          git diff --staged --quiet || git commit -m "エピソード情報とRSSを更新"
+          git push
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: feed
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
