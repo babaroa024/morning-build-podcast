@@ -85,7 +85,7 @@ PY
 
       - name: RSS を生成
         run: |
-          cp assets/cover.png feed/cover.png
+          mkdir -p feed && cp cover.png feed/cover.png
           python scripts/build_feed.py
 
       - name: エピソード情報をコミット
